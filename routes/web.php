@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TodoController;
+use App\Http\Middleware\TasksMiddlware;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,5 +18,9 @@ use Inertia\Inertia;
 */
 
 Route::get('/', [TodoController::class, "index"])->name("index");
-Route::post('/createOrUpdate', [TodoController::class, "createOrUpdate"])->name("createOrUpdate");
-Route::post('/changeStatus', [TodoController::class, "changeStatus"])->name("changeStatus");
+Route::get('/create', [TodoController::class, "createTaskView"])->name("createTaskView");
+Route::get('/edit/{id}', [TodoController::class, "editTaskView"])->name("editTaskView");
+Route::post('/create-or-update', [TodoController::class, "createOrUpdate"])->name("createOrUpdate");
+Route::get('/fetch-todos', [TodoController::class, "fetch"])->name("fetch");
+Route::post('/change-status', [TodoController::class, "changeStatus"])->name("changeStatus");
+Route::post('/delete', [TodoController::class, "deleteTask"])->name("deleteTask");

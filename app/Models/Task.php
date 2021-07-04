@@ -9,8 +9,9 @@ class Task extends Model
 {
     protected $fillable = [
         "title",
-        "status",
-        "completed_at"
+        "description",
+        "image",
+        "priority",
     ];
 
     protected $appends = [
@@ -25,6 +26,11 @@ class Task extends Model
 
     public function getCompletedDateAttribute()
     {
-        return Carbon::parse($this->completed_at)->toDayDateTimeString();
+        return ($this->completed_at) ? Carbon::parse($this->completed_at)->toDayDateTimeString() : "";
+    }
+    
+    public function getImageAttribute($image)
+    {
+        return ($image) ?? "https://ui-avatars.com/api/?background=212529&color=fff&name=".$this->title;
     }
 }
