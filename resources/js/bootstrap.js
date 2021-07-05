@@ -10,6 +10,8 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+$(".overlay").hide();
+
 window.axios.interceptors.request.use((config) => {
     $(".overlay").show();
     return config;

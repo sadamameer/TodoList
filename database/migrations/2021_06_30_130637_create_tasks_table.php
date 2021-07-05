@@ -18,7 +18,7 @@ class CreateTasksTable extends Migration
             $table->string("title");
             $table->text("description")->nullable();
             $table->string("image")->nullable();
-            $table->enum("status", ["Not Started", "Opened" , "Completed"])->default("Not Started");
+            $table->enum("status", ["Not Started", "Completed"])->default("Not Started");
             $table->enum("priority", ["High", "Normal"])->default("Normal");
             $table->timestamp("completed_at")->nullable();
             $table->timestamps();

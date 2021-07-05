@@ -19,6 +19,7 @@ class Task extends Model
         "completed_date"
     ];
 
+    //Mutators
     public function getCreatedDateAttribute()
     {
         return Carbon::parse($this->created_at)->toDayDateTimeString();
@@ -32,5 +33,48 @@ class Task extends Model
     public function getImageAttribute($image)
     {
         return ($image) ?? "https://ui-avatars.com/api/?background=212529&color=fff&name=".$this->title;
+    }
+
+    //Scopes
+    public function scopeTitle($query, $search)
+    {
+        if ($search) {
+            return $query->where('title', 'LIKE', "%".$search."%");
+        }
+
+        return $query;
+    }
+
+    public function scopeStatus($query, $status)
+    {
+        if ($status) {
+            return $query->where('status', $status);
+        }
+
+        return $query;
+    }
+    
+    public function scopePriority($query, $priority)
+    {
+        if ($priority) {
+            return $query->where('priority', $priority);
+        }
+
+        return $query;
+    }
+    
+    public function scopeSince($query, $since)
+    {
+        if ($since) {
+            return $query->whereDate('created_at', $since);
+        }
+
+        return $query;
+    }
+
+    //Relations
+    public function logs()
+    {
+        return $this->hasMany(TaskLog::class);
     }
 }

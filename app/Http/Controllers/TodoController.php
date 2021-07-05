@@ -10,11 +10,15 @@ use Inertia\Inertia;
 
 class TodoController extends Controller
 {
+    protected $request;
+
     public function __construct() {
         $this->middleware("TasksMiddlware")->only([
             "createTaskView",
             "createOrUpdate"
         ]);
+
+        $this->request = request();
     }
 
     public function index()
@@ -25,7 +29,15 @@ class TodoController extends Controller
     public function fetch()
     {
         if (!request()->ajax()) { return redirect("/"); }
-        $tasks = Task::latest()->simplePaginate(10);
+
+        $tasks = Task::title($this->request->search)
+                        ->status($this->request->status)
+                        ->priority($this->request->priority)
+                        ->since($this->request->since)
+                        ->with(["logs"])
+                        ->latest()
+                        ->simplePaginate(10);
+
         return response()->json(["tasks" => $tasks]);
     }
 
@@ -39,7 +51,7 @@ class TodoController extends Controller
         Task::updateOrCreate([
             "id" => $request->id
         ], $request->all());
-        return redirect(route("index"));
+        return redirect()->route("index");
     }
 
     public function editTaskView($id)
@@ -55,19 +67,19 @@ class TodoController extends Controller
         return back();
     }
 
-    public function changeStatus(Request $request)
+    public function changeStatus()
     {
-        $task = Task::find($request->id);
+        $task = Task::find($this->request->id);
         if ($task) {
-            $task->status = $request->status;
-            $task->completed_at = ($request->status == "Completed") ? Carbon::now() : NULL;
+            $task->status = $this->request->status;
+            $task->completed_at = ($this->request->status == "Completed") ? Carbon::now() : NULL;
             $task->save();
         }
     }
     
-    public function deleteTask(Request $request)
+    public function deleteTask()
     {
-        $task = Task::find($request->id);
+        $task = Task::find($this->request->id);
         if ($task) {
             $task->delete();
         }
