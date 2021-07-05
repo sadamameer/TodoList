@@ -37,7 +37,7 @@ class TodoController extends Controller implements TodoInterface
                         ->since($this->request->since)
                         ->with(["logs"])
                         ->latest()
-                        ->simplePaginate(10);
+                        ->simplePaginate(5);
 
         return response()->json(["tasks" => $tasks]);
     }
