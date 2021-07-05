@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateOrCreateRequest;
+use App\Interfaces\TodoInterface;
 use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class TodoController extends Controller
+class TodoController extends Controller implements TodoInterface
 {
     protected $request;
 

@@ -99,7 +99,7 @@
                 </div>
                 <div v-else class="text-center p-5 m-5">
                     <img src="https://www.svgrepo.com/show/189280/tasks-tick.svg" alt="Nothing Pending" width="100">
-                    <h4 class="mt-3">All Done!</h4>
+                    <h4 class="mt-3">Nothing Found!</h4>
                 </div>
             </div>
         </div>
